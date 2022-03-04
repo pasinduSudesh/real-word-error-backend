@@ -3,12 +3,16 @@ from flask import Flask, render_template, request, jsonify
 import os
 from flask_cors import CORS
 import re
+import json
 
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 
 path_to_model = "sin-survivor/re-errors"
-model = None
-tokenizer = None
+# path_to_model = "G:/ACA/FYP/Huggingface_Finetuned_Model/rw-errors"
+model = MBartForConditionalGeneration.from_pretrained(path_to_model)
+tokenizer = MBart50TokenizerFast.from_pretrained(path_to_model)
+print("Mode and Tokenizer downloaded")
+tokenizer.src_lang = "si_LK"
 
 
 def pre_process(sentences):
@@ -69,11 +73,11 @@ def create_response(inputsetence, predictions):
           'errorLevel':error_level
       })
   
-  return {
+  return json.dumps({
       'input':inputsetence,
       'predicted':predictions[0],
       'wordPredictions':suggestion_details
-  }
+  })
 
 @app.route("/")
 def index():
@@ -83,18 +87,26 @@ def index():
     If a query string comes into the URL, it will return a parsed
     dictionary of the query string keys & values, using request.args
     """
+    return json.dumps({
+      'sdddd':[2,3,6],
+      "sddd":{
+        "sed":["er","fr","d"]
+      }
+    })
 
-    try:
-        model = MBartForConditionalGeneration.from_pretrained(path_to_model)
-        tokenizer = MBart50TokenizerFast.from_pretrained(path_to_model)
-        tokenizer.src_lang = "si_LK"
-        return {
-            "msg":"successfully loaded model"
-        }
-    except:
-        return{
-            "msg": "error in loading model"
-        }
+    # try:
+    #     print("Downloading Model")
+    #     # model = 
+    #     print("Model Donloaded")
+
+    #     print("Model Downloaded")
+    #     return {
+    #         "msg":"successfully loaded model"
+    #     }
+    # except:
+    #     return{
+    #         "msg": "error in loading model"
+    #     }
 
     
     
