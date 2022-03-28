@@ -1,7 +1,7 @@
 from app import app
 from flask import Flask, render_template, request, jsonify
 import os
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import re
 import json
 
