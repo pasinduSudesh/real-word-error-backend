@@ -80,6 +80,7 @@ def create_response(inputsetence, predictions):
   })
 
 @app.route("/")
+@cross_origin()
 def index():
 
     """
@@ -88,10 +89,8 @@ def index():
     dictionary of the query string keys & values, using request.args
     """
     return json.dumps({
-      'sdddd':[2,3,6],
-      "sddd":{
-        "sed":["er","fr","d"]
-      }
+      'msg':"Welcome to Erroff"
+      
     })
 
     # try:
@@ -112,6 +111,7 @@ def index():
     
 
 @app.route('/', methods=["POST"])
+@cross_origin()
 def home():
   if request.method=='POST':
     posted_data = request.get_json()
